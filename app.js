@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 
-// const authRoutes = require('./routes/auth')
+const counterRoutes = require('./routes/counters')
 
 dotenv.config()
 
@@ -20,7 +20,7 @@ app.use((req, res, next) => {
     next()
 })
 
-// app.use('/auth', authRoutes)
+app.use('/', counterRoutes)
 
 mongoose.connect(
     MONGODB_URI + '?retryWrites=true&w=majority'
