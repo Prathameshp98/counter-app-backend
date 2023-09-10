@@ -8,7 +8,7 @@ const router = express.Router()
 router.post('/save-counters', counterController.saveCounters)
 
 // /auth/login
-router.post('/get-counters', counterController.getCounters)
+router.get('/get-counters', counterController.getCounters)
 
 
 module.exports = router
