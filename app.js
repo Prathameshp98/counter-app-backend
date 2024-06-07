@@ -11,7 +11,14 @@ const MONGODB_URI = `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DA
 
 const app = express()
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+
+const userSchema = new mongoose.Schema({
+    data: Object
+});
+const User = mongoose.model('User', userSchema);
+
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -22,12 +29,21 @@ app.use((req, res, next) => {
 
 app.use('/', counterRoutes)
 
+app.get('/users', async (req, res) => {
+    try {
+        const items = await User.find();
+        res.status(200).json(items);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 mongoose.connect(
     MONGODB_URI + '?retryWrites=true&w=majority'
     )
     .then(result => {
         app.listen(process.env.PORT , () => {
-            console.log("App started on port 8282")
+            console.log("App started on port 8080")
         });   
     })
     .catch(err => console.log(err))
