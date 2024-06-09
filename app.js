@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const usersData = require('./utils/usersData');
 
 const counterRoutes = require('./routes/counters')
 
@@ -32,6 +33,8 @@ app.use('/', counterRoutes)
 app.get('/users', async (req, res) => {
     try {
         const items = await User.find();
+        const dt = usersData(items[0].data.AuthorWorklog)
+        items[0].data.AuthorWorklog.rows.push(dt);
         res.status(200).json(items);
     } catch (error) {
         res.status(500).json({ message: error.message });
