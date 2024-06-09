@@ -34,7 +34,7 @@ app.get('/users', async (req, res) => {
     try {
         const items = await User.find();
         const dt = usersData(items[0].data.AuthorWorklog)
-        items[0].data.AuthorWorklog.rows.push(dt);
+        items[0].data.AuthorWorklog.rows.unshift(dt);
         res.status(200).json(items);
     } catch (error) {
         res.status(500).json({ message: error.message });
