@@ -2,6 +2,7 @@
 const User = require('../models/User');
 const usersData = require('../utils/usersData');
 const newData = require('../data/data');
+const filters = require('../utils/filters');
 
 exports.getUsers = (req, res, next) => {
 
@@ -13,6 +14,11 @@ exports.getUsers = (req, res, next) => {
         .then(users => {
             const dt = usersData(users[0].data.AuthorWorklog);
             users[0].data.AuthorWorklog.rows.unshift(dt);
+
+            if(name){
+                users = filters.filterByName(users, name);
+            }
+
             res.status(200).json(users);
         })
         .catch((err) => {
