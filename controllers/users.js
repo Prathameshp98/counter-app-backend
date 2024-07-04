@@ -18,6 +18,9 @@ exports.getUsers = (req, res, next) => {
             if(name){
                 users = filters.filterByName(users, name);
             }
+            if(startDate && endDate){
+                users = filters.filterByDate(users, startDate, endDate);
+            }
 
             res.status(200).json(users);
         })
