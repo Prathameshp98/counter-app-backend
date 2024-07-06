@@ -29,6 +29,18 @@ exports.getUsers = (req, res, next) => {
         });
 };
 
+exports.getNames = (req, res, next) => {
+
+    User.find()
+        .then(users => {
+            const names = users[0].data.AuthorWorklog.rows.map(each => each.name);
+            res.status(200).json(names);
+        })
+        .catch((err) => {
+            res.status(500).json({data: err});
+        });
+}
+
 exports.addOne = (req, res, next) => {
 
     User.find()
