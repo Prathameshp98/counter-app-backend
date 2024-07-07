@@ -1,14 +1,4 @@
 
-const totalActivity = [
-    { name: "PR Open", value: 0 },
-    { name: "PR Merged", value: 0 },
-    { name: "Commits", value: 0 },
-    { name: "PR Reviewed", value: 0 },
-    { name: "PR Comments", value: 0 },
-    { name: "Incident Alerts", value: 0 },
-    { name: "Incidents Resolved", value: 0 }
-];
-
 const convertDateFormat = (dateStr) => {
     const [day, month, year] = dateStr.split('-');
     return `${year}-${month}-${day}`;
@@ -23,12 +13,19 @@ exports.filterByName = (response, name) => {
 exports.filterByDate = (response, startDate, endDate) => {
     const dayWiseActivity = response[0].data.AuthorWorklog.rows[0].dayWiseActivity;
 
-    const start = convertDateFormat(startDate);
-    const end = convertDateFormat(endDate);
+    let totalActivity = [
+        { name: "PR Open", value: 0 },
+        { name: "PR Merged", value: 0 },
+        { name: "Commits", value: 0 },
+        { name: "PR Reviewed", value: 0 },
+        { name: "PR Comments", value: 0 },
+        { name: "Incident Alerts", value: 0 },
+        { name: "Incidents Resolved", value: 0 }
+    ];
 
     const updatedDayWiseActivity = dayWiseActivity.filter(activity => {
         const activityDate = activity.date;
-        return activityDate >= start && activityDate <= end;
+        return activityDate >= startDate && activityDate <= endDate;
     });
 
     updatedDayWiseActivity.forEach(activity => {
